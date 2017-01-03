@@ -121,7 +121,7 @@ World.prototype = {
             for(var y=0; y< h; y++) {
                 var v = new Vector(x,y);
                 if (v.distanceTo(nextPos) <= player.size){
-                    nextPixels.push(data.slice((y*w+x)*4,4));
+                    nextPixels.push(pixels.slice((y*w+x)*4,(y*w+x)*4+4));
                 }
             }
         }
