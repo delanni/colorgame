@@ -425,24 +425,24 @@
             }
         },
         calculateVisitPath: function (pointsToVisit) {
-            this.path = [];
+//             this.path = [];
             var currentPosition = this.body.position;
-            var pCopy = pointsToVisit.slice();
-            while (pCopy.length) {
-                var minDistance = Infinity;
-                var minIndex = -1;
-                for (var i = 0; i < pCopy.length; i++) {
-                    var target = pCopy[i];
-                    var d = currentPosition.distanceTo(target);
-                    if (d < minDistance) {
-                        minDistance = d;
-                        minIndex = i
-                    }
-                }
-                this.path.push(pCopy[minIndex]);
-                currentPosition = pCopy[minIndex];
-                pCopy.splice(minIndex, 1);
-            }
+            this.path = pointsToVisit.slice();
+//             while (pCopy.length) {
+//                 var minDistance = Infinity;
+//                 var minIndex = -1;
+//                 for (var i = 0; i < pCopy.length; i++) {
+//                     var target = pCopy[i];
+//                     var d = currentPosition.distanceTo(target);
+//                     if (d < minDistance) {
+//                         minDistance = d;
+//                         minIndex = i
+//                     }
+//                 }
+//                 this.path.push(pCopy[minIndex]);
+//                 currentPosition = pCopy[minIndex];
+//                 pCopy.splice(minIndex, 1);
+//             }
         }
     };
 
