@@ -114,6 +114,7 @@ World.prototype = {
         if (!player) return;
         var klone = player.body.clone();
         klone.animate();
+        var color = klone.color;
         var nextPos = klone.position;
         var nextPixels = [];
         var pixels = this.ctx.getImageData(0,0,w,h).data;
@@ -121,10 +122,14 @@ World.prototype = {
             for(var y=0; y< h; y++) {
                 var v = new Vector(x,y);
                 if (v.distanceTo(nextPos) <= player.size){
-                    nextPixels.push(pixels.slice((y*w+x)*4,(y*w+x)*4+4));
+                    var px = pixels.slice((y*w+x)*4,(y*w+x)*4+4);
+                    if (px[0]===px[1] && px[1]===px[2] && px[3]===34);
+                    else { nextPixels.push(px); }
                 }
             }
         }
+        var distance = nextPixels.reduce(function(sum, next){ return sum + Math.abs(color.r-next[0]) + Math.abs(color.g-next[1]) + Math.abs(color.b-next[2]) }, 0);
+        document.title = distance;
     },
     animate: function (dt) {
         this.think(dt);
