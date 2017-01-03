@@ -99,7 +99,7 @@
             var p = new PixelEntity();
             p.body.position.x = coords[0];
             p.body.position.y = coords[1];
-            p.body.followFactor = 70;
+            p.body.followFactor = 70 - Math.random()*15;
             p.body.maxSpeed = 0.1+Math.random()/20;
             p.calculateVisitPath(shapePoints);
             world.entities.push(p);
@@ -410,14 +410,14 @@
             this.color.shiftHue(10);
             var target = this.path[0];
             if (!target) {
-                world.entities.splice(world.entities.indexOf(target),1);
+                world.entities.splice(world.entities.indexOf(this),1);
                 return;
             }
             var directionVector = target.subtract(this.body.position);
             if (directionVector.length() < 2 || (directionVector.length() < 50 && this._lastDistance < directionVector.length())) {
                 this._lastDistance = undefined;
                 this.path.shift();
-                this.think();
+//                 this.think();
                 return;
             } else {
                 this.body.acceleration = directionVector.scale(directionVector.length() - 4).clamp(clamper);
@@ -425,24 +425,24 @@
             }
         },
         calculateVisitPath: function (pointsToVisit) {
-            this.path = [];
+//             this.path = [];
             var currentPosition = this.body.position;
-            var pCopy = pointsToVisit.slice();
-            while (pCopy.length) {
-                var minDistance = Infinity;
-                var minIndex = -1;
-                for (var i = 0; i < pCopy.length; i++) {
-                    var target = pCopy[i];
-                    var d = currentPosition.distanceTo(target);
-                    if (d < minDistance) {
-                        minDistance = d;
-                        minIndex = i
-                    }
-                }
-                this.path.push(pCopy[minIndex]);
-                currentPosition = pCopy[minIndex];
-                pCopy.splice(minIndex, 1);
-            }
+            this.path = pointsToVisit.slice();
+//             while (pCopy.length) {
+//                 var minDistance = Infinity;
+//                 var minIndex = -1;
+//                 for (var i = 0; i < pCopy.length; i++) {
+//                     var target = pCopy[i];
+//                     var d = currentPosition.distanceTo(target);
+//                     if (d < minDistance) {
+//                         minDistance = d;
+//                         minIndex = i
+//                     }
+//                 }
+//                 this.path.push(pCopy[minIndex]);
+//                 currentPosition = pCopy[minIndex];
+//                 pCopy.splice(minIndex, 1);
+//             }
         }
     };
 
