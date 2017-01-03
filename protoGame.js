@@ -33,10 +33,10 @@ var initialize = function () {
     };
 
     var doRender = function (delta) {
+        window.requestAnimationFrame(render);
         if (delta>100) delta = 100;
         world.animate(delta);
         world.render();
-        window.requestAnimationFrame(render);
     };
 
     c.addEventListener("mousedown", function (ev) {
@@ -96,6 +96,8 @@ var World = function (options) {
         throw new Error("Canvas is was not given");
     }
     this.ctx = this.canvas.getContext("2d");
+    this.w = this.canvas.width;
+    this.h = this.canvas.height;
 };
 
 World.defaults = {
@@ -105,13 +107,30 @@ World.defaults = {
 };
 
 World.prototype = {
-    think: function () {},
+    think: function (dt) {
+        var w = this.w;
+        var h = this.h;
+        var player = this.entities[0];
+        if (!player) return;
+        var klone = player.body.clone();
+        klone.animate();
+        var nextPos = klone.position;
+        var nextPixels = [];
+        var pixels = this.ctx.getImageData(0,0,w,h).data;
+        for(var x = 0; x < w; x++) {
+            for(var y=0; y< h; y++) {
+                var v = new Vector(x,y);
+                if (v.distanceTo(nextPos) <= player.size){
+                    nextPixels.push(data.slice((y*w+x)*4,4));
+                }
+            }
+        }
+    },
     animate: function (dt) {
-        this.think();
+        this.think(dt);
         this.entities.forEach(function (e) {
             if (e.think) e.think();
             e.animate(dt);
-
         }, this);
     },
     render: function () {
